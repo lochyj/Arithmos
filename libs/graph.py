@@ -191,11 +191,37 @@ class Graph:
             value_b = self.nodes_attributes[edge_b][attribute]
 
             if value_a != value_b:
-                print("WARN: Edge values do not match.\nHere is the first value we found.\n(returned to you)")
+                print("WARN: Edge values do not match.\nWe returned the first value we found.")
                 return value_a
             
             return value_a
 
-    # -------
-    # Helpers
-    # -------
+    # ----------------
+    # Other observers
+    # ----------------
+
+    def adjacent(self, node_u: int|float|str|tuple, node_v: int|float|str|tuple):
+        node_u = hash(node_u)
+        node_v = hash(node_v)
+
+        if self.directed:
+            if (node_u, node_v) in self.edges:
+                return True
+            else:
+                return False
+        else:
+            if (node_u, node_v) in self.edges or (node_v, node_u) in self.edges:
+                return True
+            else:
+                return False
+    
+    def neighbours(self, node: int|float|str|tuple):
+        # TODO: Make this a little more readable...
+        
+        node = hash(node)
+
+        if self.directed:
+            return [edge[1] for edge in self.edges if edge[0] == node]
+        
+        else:
+            return [edge[1] for edge in self.edges if edge[0] == node or edge[1] == node]
