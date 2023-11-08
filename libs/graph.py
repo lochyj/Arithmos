@@ -1,3 +1,5 @@
+import random
+
 from libs.globals import *
 
 # What is int|float|str|tuple?
@@ -50,12 +52,12 @@ class Graph:
     # Nodes / Vertices
     # ----------------
 
-    def add_node(self, node: int|float|str|tuple):
+    def add_node(self, node: node_id):
         node = hash(node)
         self.nodes.append(node)
         
 
-    def remove_node(self, node: int|float|str|tuple):
+    def remove_node(self, node: node_id):
         node = hash(node)
         self.nodes.remove(node)
 
@@ -71,7 +73,7 @@ class Graph:
                     self.remove_edge(edge[1], edge[0])
 
     
-    def set_node_attribute(self, node: int|float|str|tuple, attribute: str, value: any):
+    def set_node_attribute(self, node: node_id, attribute: str, value: any):
         node = hash(node)
 
         if node not in self.nodes:
@@ -82,7 +84,7 @@ class Graph:
             attribute: value
         }
     
-    def get_node_attribute(self, node: int|float|str|tuple, attribute: str):
+    def get_node_attribute(self, node: node_id, attribute: str):
         node = hash(node)
 
         if node not in self.nodes:
@@ -95,7 +97,7 @@ class Graph:
     # Edges
     # -----
 
-    def add_edge(self, node_u: int|float|str|tuple, node_v: int|float|str|tuple):
+    def add_edge(self, node_u: node_id, node_v: node_id):
         node_u = hash(node_u)
         node_v = hash(node_v)
 
@@ -105,7 +107,7 @@ class Graph:
             self.edges.append((node_u, node_v))
             self.edges.append((node_v, node_u))
     
-    def remove_edge(self, node_u: int|float|str|tuple, node_v: int|float|str|tuple):
+    def remove_edge(self, node_u: node_id, node_v: node_id):
         node_v = hash(node_v)
         node_u = hash(node_u)
 
@@ -134,7 +136,7 @@ class Graph:
                 del self.edges_attributes[edge_b]
 
 
-    def set_edge_attribute(self, node_u: int|float|str|tuple, node_v: int|float|str|tuple, attribute: str, value: any):
+    def set_edge_attribute(self, node_u: node_id, node_v: node_id, attribute: str, value: any):
         node_u = hash(node_u)
         node_v = hash(node_v)
         
@@ -166,7 +168,7 @@ class Graph:
             }
         
     
-    def get_edge_attribute(self, node_u: int|float|str|tuple, node_v: int|float|str|tuple, attribute: str):
+    def get_edge_attribute(self, node_u: node_id, node_v: node_id, attribute: str):
         node_u = hash(node_u)
         node_v = hash(node_v)
         
@@ -200,7 +202,7 @@ class Graph:
     # Other observers
     # ----------------
 
-    def adjacent(self, node_u: int|float|str|tuple, node_v: int|float|str|tuple):
+    def adjacent(self, node_u: node_id, node_v: node_id):
         node_u = hash(node_u)
         node_v = hash(node_v)
 
@@ -215,7 +217,7 @@ class Graph:
             else:
                 return False
     
-    def neighbours(self, node: int|float|str|tuple):
+    def neighbours(self, node: node_id):
         # TODO: Make this a little more readable...
         
         node = hash(node)
@@ -225,3 +227,58 @@ class Graph:
         
         else:
             return [edge[1] for edge in self.edges if edge[0] == node or edge[1] == node]
+
+
+    # ----------------
+    # Helper functions
+    # ----------------
+
+    def random(self, num_nodes: int, num_edges: int):
+        
+        if len(self.nodes) > 0:
+
+            print("WARN: Cannot generate a random graph with a non-empty graph!")
+            print("Clearing the graph")
+
+            nodes = self.nodes
+
+            for node in nodes:
+                self.remove_node(node)
+
+            return
+
+        for i in range(num_nodes):
+            self.add_node(i)
+
+        node_list = [i for i in range(num_nodes)]
+
+        for i in range(num_edges):
+            connection = random.choices(node_list, k=2)
+
+            iters = 0
+
+            while connection[0] == connection[1] and iters < 10:
+                connection = random.choices(node_list, k=2)
+                iters += 1
+
+            self.add_edge(connection[0], connection[1])
+    
+    def export(self, type):
+
+        match type:
+            case 0:
+                matrix = []
+
+                for i in range(len(self.nodes)):
+                    matrix.append([])
+                    for j in range(len(self.nodes)):
+                        matrix[i].append(0)
+
+                for edge in self.edges:
+                    matrix[edge[0]][edge[1]] = 1
+                
+                return matrix
+
+            case _:
+                return None
+

@@ -35,7 +35,7 @@ class Queue:
     def remove(self):
         _ = self.output.pop()
     
-    def dequeue_preserve(self):
+    def peek(self):
         if not self.output: # If the output list is empty
             while self.input: # While the input list is not empty
                 self.output.append(self.input.pop()) # Pop the last element from the input list and append it to the output list
