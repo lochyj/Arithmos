@@ -216,7 +216,7 @@ class Graph:
                 return True
             else:
                 return False
-    
+
     def neighbours(self, node: node_id):
         # TODO: Make this a little more readable...
         
@@ -233,6 +233,7 @@ class Graph:
     # Helper functions
     # ----------------
 
+    # TODO: Make random never generate islands and only generate a single main graph.
     def random(self, num_nodes: int, num_edges: int):
         
         if len(self.nodes) > 0:
@@ -246,6 +247,11 @@ class Graph:
                 self.remove_node(node)
 
             return
+
+        if num_edges < num_nodes - 1:
+            print("WARN: Cant make a random graph with that little edges.")
+            print("Setting to minimum required edges")
+            num_edges = num_nodes - 1
 
         for i in range(num_nodes):
             self.add_node(i)
