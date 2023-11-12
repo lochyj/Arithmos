@@ -1,0 +1,42 @@
+body, html {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    background-color: #1e1e1e;
+    height: 100%;
+
+    font-family: 'Times New Roman', Times, serif;
+}
+
+body>div {
+    display: grid;
+    grid-template-columns: 2;
+}
+
+.right {
+    grid-column: 2;
+    width: 39vw;
+}
+
+#editor {
+    width: 59vw;
+}
+
+#console, #output {
+    background-color: #1e1e1e;
+    color: white;
+    border-radius: 5px;
+    height: max(40vh, 300px);
+    border: 1px solid gray;
+    padding: 10px;
+}
+
+#console {
+    margin-top: 15px;
+    overflow-y: scroll;
+}
+
+#console > span {
+    font-family: 'Courier New', Courier, monospace;
+}

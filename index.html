@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/editor/editor.main.min.css">
+    <link rel="stylesheet" href="/styles/index.css">
+    <title>Arithmos</title>
+</head>
+<body onload="brython(1)">
+    <script src="/scripts/utils.js"></script>
+
+    <!-- Import brython js files from cdnjs, which is faster than from github -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.0/brython.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.0/brython_stdlib.min.js"></script>
+
+    <script src="/main.py" type="text/python"></script>
+
+    <div>
+        <div id="editor"></div>
+        <div class="right">
+            <div id="output"></div>
+            <div id="console"></div>
+        </div>
+    </div>
+
+    <script>
+        var require = { paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs' } }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/loader.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.nls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.js"></script>
+
+    <script>
+        var editor = editor = monaco.editor.create(document.getElementById('editor'), {
+            language: 'python',
+            theme: 'vs-dark',
+            automaticLayout: true
+        });
+
+        function getCode() {
+            return editor.getValue();
+        }
+
+    </script>
+</body>
+</html>
