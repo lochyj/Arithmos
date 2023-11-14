@@ -10,8 +10,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
     <title>Arithmos</title>
+    <script>
+        function init() {
+            if (window.location.href.includes("127.0.0.1")) {
+                var pythonpath = "http://127.0.0.1:5500/lib/";
+            } else {
+                var pythonpath = "https://raw.githubusercontent.com/lochyj/arithmos/main/lib/";
+            }
+
+            brython(
+                {
+                    debug: 1,
+                    pythonpath: [pythonpath],
+                }
+            )
+        }
+    </script>
 </head>
-<body onload="brython(1)">
+<body onload="init()">
 
     <!-- Import brython js files from cdnjs, which is faster than from github -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.0/brython.min.js"></script>
