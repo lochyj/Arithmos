@@ -5,22 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.20.0/min/vs/editor/editor.main.min.css">
     <link rel="stylesheet" href="/styles/index.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
     <title>Arithmos</title>
 </head>
 <body onload="brython(1)">
-    <script src="/scripts/utils.js"></script>
 
     <!-- Import brython js files from cdnjs, which is faster than from github -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.0/brython.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.12.0/brython_stdlib.min.js"></script>
 
+    <!-- Include the main.py python file for brython to compile and run for us. -->
+    <!-- It has all of the graph libraries and sets up stdio and button events. -->
     <script src="/main.py" type="text/python"></script>
 
     <div>
-        <div id="editor"></div>
-        <div class="right">
-            <div id="output"></div>
-            <div id="console"></div>
+        <div class="top">
+            <div class="title">
+                <h1>Arithmos</h1>
+            </div>
+            <div class="buttons">
+                <button id="run">Run</button>
+                <button id="stop">Stop</button>
+
+                <button id="reset">Reset</button>
+                <button onclick="document.getElementById('console').innerText=''">Clear</button>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="editor">
+                <h2>Editor</h2>
+                <div class="line"></div>
+                <div id="editor"></div>
+            </div>
+    
+            <div class="right">
+    
+                <div class="output">
+                    <h2>Output</h2>
+                    <div class="line"></div>
+                    <div id="output"></div>
+                </div>
+    
+                <div class="console">
+                    <h2>Console</h2>
+                    <div class="line"></div>
+                    <div id="console"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -34,14 +69,42 @@
     <script>
         var editor = editor = monaco.editor.create(document.getElementById('editor'), {
             language: 'python',
-            theme: 'vs-dark',
-            automaticLayout: true
+            theme: 'vs-light',
+            automaticLayout: true,
+            FontFace: 'JetBrains Mono',
+            fontSize: 16,
         });
 
         function getCode() {
             return editor.getValue();
         }
 
+        function sanitizeHtml(html) {
+            return html.replace('&', "&amp;").replace('<', "&lt;").replace('>', "&gt;").replace('\n', "<br>").replace('\"', "&quot;").replace('\'', "&apos;").replace(' ', "&nbsp;").replace('=', "&equals;")
+        }
+        
+        function write(data, type) {
+            const console = document.getElementById("console");
+        
+            data = sanitizeHtml(data)
+        
+            if (type == 0)
+                console.innerHTML += "<span>" + data + "</span>";
+            else if (type == 1)
+        
+                console.innerHTML += "<span style=\"color: lightcoral;\">" + data + "</span>";
+        
+        }
+
+        function saveCode() {
+            localStorage.setItem("code", getCode());
+        }
+
+        function loadCode() {
+            editor.setValue(localStorage.getItem("code"));
+        }
+
+        loadCode();
     </script>
 </body>
 </html>

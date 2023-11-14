@@ -1,42 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;900&display=swap');
+
 body, html {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 
-    background-color: #1e1e1e;
+    background-color: #dfe1e5;
     height: 100%;
 
-    font-family: 'Times New Roman', Times, serif;
+    font-family: 'Heebo', sans-serif;
+
+    overflow-y: hidden;
 }
 
-body>div {
+body > div {
+    display: block;
+    padding: 15px;
+}
+
+.top {
     display: grid;
-    grid-template-columns: 2;
+    grid-template-columns: 1fr 1fr;
+    background-color: #fffffe;
+    border-radius: 15px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 15px;
+    height: 100%;
+}
+
+.title {
+    font-size: 1rem;
+    font-weight: 900;
+    margin: 0;
+    padding-left: 20px;
+    text-decoration: underline #0065ff 4px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.buttons > button {
+    background-color: #0065ff;
+    color: #fffffe;
+    border: none;
+    border-radius: 7px;
+    padding: 20px 30px 20px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .right {
     grid-column: 2;
-    width: 39vw;
+    width: 40vw;
+}
+
+.editor {
+    padding: 10px;
+    background-color: #fffffe;
+    border-radius: 7px;
 }
 
 #editor {
-    width: 59vw;
+    width: 55vw;
+    height: 60vh;
+    max-height: 60vh;
+}
+
+.output, .console {
+    padding: 10px;
+    background-color: #fffffe;
+    border-radius: 7px;
+}
+
+.console {
+    margin-top: 15px;
 }
 
 #console, #output {
-    background-color: #1e1e1e;
-    color: white;
-    border-radius: 5px;
-    height: max(40vh, 300px);
-    border: 1px solid gray;
-    padding: 10px;
+    color: #030507;
+    height: 32vh;
 }
 
 #console {
-    margin-top: 15px;
     overflow-y: scroll;
 }
 
 #console > span {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin: 0;
+    padding-left: 20px;
+
+}
+
+.line {
+    width: 100%;
+    height: 2px;
+    background-color: #0065ff;
+    margin-bottom: 5px;
 }

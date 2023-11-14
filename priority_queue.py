@@ -1,5 +1,5 @@
 
-class Queue:
+class PriorityQueue:
     def __init__(self):
         self.queue: list[any, int] = []
 

@@ -1,6 +1,27 @@
-from browser import window
+
+# ----------------|
+# Brython imports |
+# ----------------|
+
+from browser import window, document
 
 import sys
+
+# --------------|
+# Arithmos core |
+# --------------|
+
+from graph import Graph
+from set import Set
+from priority_queue import PriorityQueue
+# from queue import Queue
+# from array import Array
+# from list import List
+#from stack import Stack
+
+# ------------|
+# Setup stdio |
+# ------------|
 
 class RegularOut:
     # Doesn't need self as an argument now??
@@ -17,18 +38,25 @@ class ErrorOut:
 sys.stdout = RegularOut
 sys.stderr = ErrorOut
 
-# Finish setup
+# --------------|
+# Setup buttons |
+# --------------|
 
-from graph import Graph
+def button_run(_):
+    window.saveCode()
+    text = window.getCode()
 
-G = Graph(directed=False)
+    exec(text)
 
-G.random(10, 20)
+def button_stop(_):
+    ...
 
-graph = G.export(0)
+def button_reset(_):
+    button_stop(0)
+    button_run(0)
 
-for i in graph:
-    print(*i)
+document["run"].bind("click", button_run)
+document["stop"].bind("click", button_stop)
+document["reset"].bind("click", button_reset)
 
-for i in range(100):
-    print(i)
+print("Loading finished!")
