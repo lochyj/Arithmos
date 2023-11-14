@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+
+    <script src="//unpkg.com/force-graph"></script>
+
     <title>Arithmos</title>
     <script>
         function init() {
@@ -128,6 +131,48 @@
                 saveCode();
             }
         }, false);
+
+        const Graph = ForceGraph()(document.getElementById('output'))
+
+        function addNode(id, label, color) {
+            Graph.graphData().nodes.push({id: id, label: label, color: color})
+            Graph.graphData(Graph.graphData())
+        }
+
+        function addEdge(source, target, label, color) {
+            Graph.graphData().links.push({source: source, target: target, label: label, color: color})
+            Graph.graphData(Graph.graphData())
+        }
+
+        function modifyNode(id, label, color) {
+            Graph.graphData().nodes[id].label = label
+            Graph.graphData().nodes[id].color = color
+            Graph.graphData(Graph.graphData())
+        }
+
+        function modifyEdge(source, target, label, color) {
+            Graph.graphData().links[source].label = label
+            Graph.graphData().links[source].color = color
+            Graph.graphData(Graph.graphData())
+        }
+
+        function removeNode(id) {
+            Graph.graphData().nodes.splice(id, 1)
+            Graph.graphData(Graph.graphData())
+        }
+
+        function removeEdge(source, target) {
+            Graph.graphData().links.splice(source, 1)
+            Graph.graphData(Graph.graphData())
+        }
+
+        addNode(0, "0", "lightcoral")
+        addNode(1, "1", "lightcoral")
+
+        addEdge(0, 1, "0", "lightcoral")
+
+        modifyNode(0, "0", "green")
+
     </script>
 </body>
 </html>

@@ -1,6 +1,9 @@
 import random
+import time
 
 from globals import *
+
+from browser import window
 
 class Graph:
 
@@ -12,6 +15,8 @@ class Graph:
 
         self.nodes_attributes = {}
         self.edges_attributes = {}
+
+        self.id = time.time()
 
     # ------------------|
     # Utility functions |
@@ -47,6 +52,8 @@ class Graph:
         node = hash(node)
         self.nodes.append(node)
 
+        window.addNode(self.id + node, "")
+
 
     def remove_node(self, node: any):
         check_hashable_type(node)
@@ -60,11 +67,15 @@ class Graph:
             if edge[0] == node or edge[1] == node:
                 if self.directed:
                     self.remove_edge(edge[0], edge[1])
+
+                    window.removeEdge(self.id, edge[0], edge[1])
                 else:
                     self.remove_edge(edge[0], edge[1])
                     self.remove_edge(edge[1], edge[0])
 
-    
+                    window.removeEdge(self.id, edge[0], edge[1])
+                    window.removeEdge(self.id, edge[1], edge[0])
+
     def set_node_attribute(self, node: any, attribute: str, value: any):
         check_hashable_type(node)
         node = hash(node)
@@ -100,9 +111,15 @@ class Graph:
 
         if self.directed:
             self.edges.append((node_u, node_v))
+
+            window.addEdge(self.id + node_u, self.id + node_v)
+
         else:
             self.edges.append((node_u, node_v))
             self.edges.append((node_v, node_u))
+
+            window.addEdge(self.id + node_u, self.id + node_v)
+            window.addEdge(self.id + node_v, self.id + node_u)
     
     def remove_edge(self, node_u: any, node_v: any):
         check_hashable_type(node_u)
