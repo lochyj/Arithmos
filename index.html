@@ -105,6 +105,13 @@
         }
 
         loadCode();
+
+        document.addEventListener("keydown", function(e) {
+            if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+                e.preventDefault();
+                saveCode();
+            }
+        }, false);
     </script>
 </body>
 </html>
