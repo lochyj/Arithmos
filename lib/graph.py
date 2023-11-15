@@ -9,6 +9,7 @@ class Graph:
 
     def __init__(self, directed: bool = False):
         self.directed = directed
+        window.setDirectional(directed)
 
         self.nodes: list[int] = []
         self.edges: list[int] = []
@@ -25,6 +26,7 @@ class Graph:
     # Sets the directedness of the graph
     def set_directed(self, directed: bool):
         self.directed = directed
+        window.setDirectional(directed)
     
     def get_nodes(self):
         return self.nodes
@@ -130,7 +132,9 @@ class Graph:
 
         if self.directed:
             self.edges.remove((node_u, node_v))
-            
+
+            window.removeEdge(self.id + node_u, self.id + node_v)
+
             edge = hash((node_u, node_v))
 
             if edge in self.edges_attributes.keys():
@@ -143,14 +147,19 @@ class Graph:
             except ValueError:
                 ... # Do nothing
 
+            window.removeEdge(self.id + node_u, self.id + node_v)
+            window.removeEdge(self.id + node_v, self.id + node_u)
+
             edge_a = hash((node_u, node_v))
             edge_b = hash((node_v, node_u))
 
             if edge_a in self.edges_attributes.keys():
                 del self.edges_attributes[edge_a]
+
             
             if edge_b in self.edges_attributes.keys():
                 del self.edges_attributes[edge_b]
+
 
 
     def set_edge_attribute(self, node_u: any, node_v: any, attribute: str, value: any):

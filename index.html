@@ -41,19 +41,6 @@
     <script src="./main.py" type="text/python"></script>
 
     <div>
-        <div class="top">
-            <div class="title">
-                <h1>Arithmos</h1>
-            </div>
-            <div class="buttons">
-                <button id="run">Run</button>
-                <button id="stop">Stop</button>
-
-                <button id="reset">Reset</button>
-                <button onclick="document.getElementById('console').innerText=''">Clear</button>
-            </div>
-        </div>
-
         <div class="main">
             <div class="editor">
                 <h2>Editor</h2>
@@ -67,6 +54,13 @@
                     <h2>Output</h2>
                     <div class="line"></div>
                     <div id="output"></div>
+                    <div class="buttons">
+                        <button id="run">Run</button>
+                        <button id="stop">Stop</button>
+        
+                        <button id="reset">Reset</button>
+                        <button onclick="document.getElementById('console').innerText=''">Clear</button>
+                    </div>
                 </div>
     
                 <div class="console">
@@ -116,23 +110,39 @@
         }
 
         function saveCode() {
-            localStorage.setItem("code", getCode());
+            localStorage.setItem("arithmos_code", getCode());
         }
 
         function loadCode() {
-            editor.setValue(localStorage.getItem("code"));
+            editor.setValue(localStorage.getItem("arithmos_code"));
         }
 
         loadCode();
 
         document.addEventListener("keydown", function(e) {
-            if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)  && e.keyCode == 83) {
+            if ((window.navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey) && e.keyCode == 83) {
                 e.preventDefault();
                 saveCode();
             }
         }, false);
 
         const Graph = ForceGraph()(document.getElementById('output'))
+
+        Graph.autoPauseRedraw(false)
+
+        Graph.cooldownTime()
+
+        out = document.getElementById("output")
+
+        outWidth = out.offsetWidth
+        outHeight = out.offsetHeight
+
+        Graph.width(outWidth)
+        Graph.height(outHeight)
+
+        function getGraph() {
+            return Graph
+        }
 
         function addNode(id, label, color) {
             Graph.graphData().nodes.push({id: id, label: label, color: color})
@@ -166,12 +176,16 @@
             Graph.graphData(Graph.graphData())
         }
 
-        addNode(0, "0", "lightcoral")
-        addNode(1, "1", "lightcoral")
+        function resetGraph() {
+            Graph.graphData({nodes: [], links: []})
+        }
 
-        addEdge(0, 1, "0", "lightcoral")
-
-        modifyNode(0, "0", "green")
+        function setDirectional(boolean) {
+            if (boolean == true)
+                Graph.linkDirectionalArrowLength(6)
+            else
+                Graph.linkDirectionalArrowLength(0)
+        }
 
     </script>
 </body>
