@@ -65,12 +65,12 @@ def button_stop(_):
     window.resetGraph()
     __running = False
 
-def button_reset(_):
+def button_restart(_):
     button_stop(0)
     button_run(0)
 
 document["run"].bind("click", button_run)
 document["stop"].bind("click", button_stop)
-document["reset"].bind("click", button_reset)
+document["restart"].bind("click", button_restart)
 
 print("Loading finished!")

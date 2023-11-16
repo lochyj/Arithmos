@@ -43,7 +43,9 @@
     <script src="./main.py" type="text/python"></script>
 
     <div>
+
         <div class="main">
+
             <div class="editor">
                 <h2>Editor</h2>
                 <div class="line"></div>
@@ -57,23 +59,31 @@
                     <div class="line"></div>
                     <div id="output"></div>
                     <div class="buttons">
-                        <button id="run">Run</button>
-                        <button id="stop">Stop</button>
-        
-                        <button id="reset">Reset</button>
-                        <button onclick="document.getElementById('console').innerText=''">Clear</button>
+                        <button id="run"><img src="./icons/play.svg" alt="Run/Pause">Run</button>
+                        <button id="stop"><img src="./icons/stop.svg" alt="Stop">Stop</button>
+                        <button id="restart"><img src="./icons/restart.svg" alt="Restart">Restart</button>
                     </div>
                 </div>
     
                 <div class="console">
-                    <h2>Console</h2>
+                    <div class="inline">
+                        <h2>Console</h2>
+                        <button onclick="document.getElementById('console').innerText=''"><img src="./icons/clear.svg" alt="Restart"></button>
+                    </div>
                     <div class="line"></div>
                     <div id="console"></div>
                 </div>
             </div>
+
         </div>
 
-        <div class="docs">
+        <div class="navigation">
+            <a href="#docs">Documentation</a>
+            <a href="#links">Links</a>
+            <a href="#credit">Credit</a>
+        </div>
+
+        <div class="docs" id="docs">
             <h2>
                 Documentation
             </h2>
@@ -111,6 +121,15 @@ G.set_node_attribute(node_id, attribute, value) # Sets the value of attribute fo
 </code>
 </pre>
         </div>
+
+        <div class="links" id="links">
+            <h2>
+                Links
+            </h2>
+            <div class="line"></div>
+            <a href="https://github.com/lochyj/Arithmos">Github</a>
+        </div>
+
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -213,6 +232,7 @@ G.set_node_attribute(node_id, attribute, value) # Sets the value of attribute fo
 
         function removeNode(id) {
             Graph.graphData().nodes.splice(id, 1)
+            console.log(Graph.graphData())
             Graph.graphData(Graph.graphData())
         }
 

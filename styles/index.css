@@ -83,6 +83,9 @@ body > div {
 
 .console {
     grid-row: 2;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 #output {
@@ -93,6 +96,9 @@ body > div {
 
 #console {
     overflow-y: scroll;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
 }
 
 /*
@@ -129,6 +135,52 @@ code {
     border-radius: 7px;
 }
 
+.inline {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.inline > button {
+    padding: 10px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 7px;
+}
+
+/*
+    Navigation
+*/
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin-top: 5px;
+    padding-left: 30%;
+    padding-right: 30%;
+    background-color: #fffffe;
+    border-radius: 7px;
+    margin-top: 15px;
+}
+
+.navigation > a {
+    text-decoration: none;
+    color: #030507;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #dfe1e5;
+    padding: 10px;
+    border-radius: 7px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
 /*
     Misc
 */
@@ -147,6 +199,9 @@ h2 {
     margin-bottom: 5px;
 }
 
+/*
+    Buttons
+*/
 
 .buttons {
     display: flex;
@@ -157,7 +212,7 @@ h2 {
     border-top: #0065ff 2px solid;
 }
 
-.buttons > button {
+button {
     background-color: #dfe1e5;
     color: #030507;
     border: none;
@@ -166,9 +221,20 @@ h2 {
     font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
 }
 
-.buttons > button:hover {
+button:hover {
     background-color: #0065ff;
     color: #fffffe;
+}
+
+button > img {
+    margin-right: 5px;
+}
+
+button:hover > img {
+    filter: invert(100%);
 }

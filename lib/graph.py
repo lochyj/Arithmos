@@ -62,6 +62,8 @@ class Graph:
         node = hash(node)
         self.nodes.remove(node)
 
+        window.removeNode(self.id + node)
+
         if node in self.nodes_attributes.keys():
             del self.nodes_attributes[node]
 
@@ -70,13 +72,13 @@ class Graph:
                 if self.directed:
                     self.remove_edge(edge[0], edge[1])
 
-                    window.removeEdge(self.id, edge[0], edge[1])
+                    window.removeEdge(self.id + edge[0], self.id + edge[1])
                 else:
                     self.remove_edge(edge[0], edge[1])
                     self.remove_edge(edge[1], edge[0])
 
-                    window.removeEdge(self.id, edge[0], edge[1])
-                    window.removeEdge(self.id, edge[1], edge[0])
+                    window.removeEdge(self.id + edge[0], self.id + edge[1])
+                    window.removeEdge(self.id + edge[1], self.id + edge[0])
 
     def set_node_attribute(self, node: any, attribute: str, value: any):
         check_hashable_type(node)
