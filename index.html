@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+
     <script src="//unpkg.com/force-graph"></script>
 
     <title>Arithmos</title>
@@ -70,7 +72,50 @@
                 </div>
             </div>
         </div>
+
+        <div class="docs">
+            <h2>
+                Documentation
+            </h2>
+            <div class="line"></div>
+            <h3>
+                Classes (ADTs)
+            </h3>
+            <li>Graph</li>
+            <br>
+            <li>Array</li>
+            <li>List</li>
+            <li>Priority Queue</li>
+            <li>Queue</li>
+            <li>Set</li>
+
+            <h3>
+                Graph
+            </h3>
+<!-- This needs to be unindented to prevent highlight.js keeping the whitespaces (tabs) in the code -->
+<pre>
+<code class="language-python">
+G = Graph(directed) # Creates a graph instance
+
+G.add_node(id) # Creates a node with the given id for the graph G which we defined above.
+
+G.add_edge(id_1, id_2) # Creates an edge between the nodes id_1 and id_2.
+# If the graph is directed, then the edge is from id_1 to id_2.
+
+G.remove_node(id) # Removes the node with the given id.
+
+G.remove_edge(id_1, id_2) # Removes the edge between the nodes id_1 and id_2.
+# If the graph is directed then the only the edge that is node id_1 to id_2 is removed.
+
+G.set_node_attribute(node_id, attribute, value) # Sets the value of attribute for the node with the given id to the given value.
+</code>
+</pre>
+        </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+    <script>hljs.highlightAll();</script>
 
     <script>
         var require = { paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs' } }
@@ -134,8 +179,8 @@
 
         out = document.getElementById("output")
 
-        outWidth = out.offsetWidth
-        outHeight = out.offsetHeight
+        outWidth = out.clientWidth
+        outHeight = out.clientHeight
 
         Graph.width(outWidth)
         Graph.height(outHeight)
