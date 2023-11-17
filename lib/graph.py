@@ -1,5 +1,6 @@
 import random
 import time
+import uuid
 
 from globals import *
 
@@ -17,7 +18,7 @@ class Graph:
         self.nodes_attributes = {}
         self.edges_attributes = {}
 
-        self.id = time.time()
+        self.id = str(uuid.uuid4())
 
     # ------------------|
     # Utility functions |
@@ -40,7 +41,7 @@ class Graph:
             
             case 1:
                 return None
-            
+
             case _: # Default pattern
                 return None
 
@@ -49,12 +50,12 @@ class Graph:
     # Nodes / Vertices
     # ----------------
 
-    def add_node(self, node: any):
+    def add_node(self, node: any, label: str = "", colour: str = "#3183ba"):
         check_hashable_type(node)
         node = hash(node)
         self.nodes.append(node)
 
-        window.addNode(self.id + node, "")
+        window.addNode(self.id + str(node), label, colour)
 
 
     def remove_node(self, node: any):
@@ -62,7 +63,7 @@ class Graph:
         node = hash(node)
         self.nodes.remove(node)
 
-        window.removeNode(self.id + node)
+        window.removeNode(self.id + str(node))
 
         if node in self.nodes_attributes.keys():
             del self.nodes_attributes[node]
@@ -72,13 +73,13 @@ class Graph:
                 if self.directed:
                     self.remove_edge(edge[0], edge[1])
 
-                    window.removeEdge(self.id + edge[0], self.id + edge[1])
+                    window.removeEdge(self.id + str(edge[0]), self.id + str(edge[1]))
                 else:
                     self.remove_edge(edge[0], edge[1])
                     self.remove_edge(edge[1], edge[0])
 
-                    window.removeEdge(self.id + edge[0], self.id + edge[1])
-                    window.removeEdge(self.id + edge[1], self.id + edge[0])
+                    window.removeEdge(self.id + str(edge[0]), self.id + str(edge[1]))
+                    window.removeEdge(self.id + str(edge[1]), self.id + str(edge[0]))
 
     def set_node_attribute(self, node: any, attribute: str, value: any):
         check_hashable_type(node)
@@ -91,6 +92,16 @@ class Graph:
         self.nodes_attributes[node] = {
             attribute: value
         }
+
+        match attribute:
+            case "label":
+                window.setNodeLabel(self.id + str(node), value)
+            case "weight":
+                ...
+            case "color":
+                ...
+            case _:
+                ...
     
     def get_node_attribute(self, node: any, attribute: str):
         check_hashable_type(node)
@@ -106,7 +117,7 @@ class Graph:
     # Edges
     # -----
 
-    def add_edge(self, node_u: any, node_v: any):
+    def add_edge(self, node_u: any, node_v: any, colour: str = "grey"):
         check_hashable_type(node_u)
         check_hashable_type(node_v)
 
@@ -116,14 +127,14 @@ class Graph:
         if self.directed:
             self.edges.append((node_u, node_v))
 
-            window.addEdge(self.id + node_u, self.id + node_v)
+            window.addEdge(self.id + str(node_u), self.id + str(node_v), colour)
 
         else:
             self.edges.append((node_u, node_v))
             self.edges.append((node_v, node_u))
 
-            window.addEdge(self.id + node_u, self.id + node_v)
-            window.addEdge(self.id + node_v, self.id + node_u)
+            window.addEdge(self.id + str(node_u), self.id + str(node_v), "", colour)
+            window.addEdge(self.id + str(node_v), self.id + str(node_u), "", colour)
     
     def remove_edge(self, node_u: any, node_v: any):
         check_hashable_type(node_u)
@@ -135,7 +146,7 @@ class Graph:
         if self.directed:
             self.edges.remove((node_u, node_v))
 
-            window.removeEdge(self.id + node_u, self.id + node_v)
+            window.removeEdge(self.id + str(node_u), self.id + str(node_v))
 
             edge = hash((node_u, node_v))
 
@@ -149,8 +160,8 @@ class Graph:
             except ValueError:
                 ... # Do nothing
 
-            window.removeEdge(self.id + node_u, self.id + node_v)
-            window.removeEdge(self.id + node_v, self.id + node_u)
+            window.removeEdge(self.id + str(node_u), self.id + str(node_v))
+            window.removeEdge(self.id + str(node_v), self.id + str(node_u))
 
             edge_a = hash((node_u, node_v))
             edge_b = hash((node_v, node_u))
@@ -327,3 +338,21 @@ class Graph:
             case _:
                 return None
 
+    # -----------|
+    # Animations |
+    # -----------|
+
+    def traverse(self, node_u: any, node_v: any, set_colour: str = "", delay: float = 0.0):
+        check_hashable_type(node_u)
+        check_hashable_type(node_v)
+
+        node_u = hash(node_u)
+        node_v = hash(node_v)
+
+        if self.directed:
+            if (node_u, node_v) not in self.edges:
+                print("WARN: Edge not found.")
+                return
+            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), set_colour, delay)
+        else:
+            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), set_colour, delay)

@@ -44,13 +44,30 @@ sys.stderr = ErrorOut
 
 __running = False
 
+__paused = False
+
+def pause():
+    global __paused
+    __paused = not __paused
+
+    if __paused:
+        window.pause()
+        document["run"].html = """<img src="./icons/play.svg" alt="Run/Pause">Resume"""
+
+    else:
+        window.resume()
+        document["run"].html = """<img src="./icons/pause.svg" alt="Run/Pause">Pause"""
+
 def button_run(_):
     global __running
     if __running:
-        print("WARN: Program is already running.\nTo restart the program, press the reset button.")
+        # The user wants to pause now...
+        pause()
         return
     window.saveCode()
     text = window.getCode()
+
+    document["run"].html = """<img src="./icons/pause.svg" alt="Run/Pause">Pause"""
 
     __running = True
 
@@ -62,6 +79,9 @@ def button_stop(_):
     if not __running:
         return
 
+    document["run"].html = """<img src="./icons/play.svg" alt="Run/Pause">Run"""
+
+    window.resume()
     window.resetGraph()
     __running = False
 

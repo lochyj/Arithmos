@@ -196,6 +196,10 @@ G.set_node_attribute(node_id, attribute, value) # Sets the value of attribute fo
 
         Graph.cooldownTime()
 
+        Graph.nodeLabel("label")
+
+        Graph.linkDirectionalParticleSpeed(0.04)
+
         out = document.getElementById("output")
 
         outWidth = out.clientWidth
@@ -218,16 +222,52 @@ G.set_node_attribute(node_id, attribute, value) # Sets the value of attribute fo
             Graph.graphData(Graph.graphData())
         }
 
+        // Below doesn't work 100% correctly
+
         function modifyNode(id, label, color) {
-            Graph.graphData().nodes[id].label = label
-            Graph.graphData().nodes[id].color = color
-            Graph.graphData(Graph.graphData())
+            const nodes = Graph.graphData().nodes
+
+            var node = null
+
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].id == id) {
+                    node = nodes[i]
+                    break
+                }
+            }
+
+            if (node == null) {
+                console.log("Node not found")
+                return
+            }
+
+            node.label = label
+            node.color = color
+
+            Graph.graphData({nodes: nodes, links: Graph.graphData().links})
         }
 
         function modifyEdge(source, target, label, color) {
-            Graph.graphData().links[source].label = label
-            Graph.graphData().links[source].color = color
-            Graph.graphData(Graph.graphData())
+            const links = Graph.graphData().links
+
+            var edge = null
+
+            for (var i = 0; i < links.length; i++) {
+                if (links[i].source == source && links[i].target == target) {
+                    edge = links[i]
+                    break
+                }
+            }
+
+            if (edge == null) {
+                console.log("Edge not found")
+                return
+            }
+
+            edge.label = label
+            edge.color = color
+
+            Graph.graphData({nodes: Graph.graphData().nodes, links: links})
         }
 
         function removeNode(id) {
@@ -241,6 +281,18 @@ G.set_node_attribute(node_id, attribute, value) # Sets the value of attribute fo
             Graph.graphData(Graph.graphData())
         }
 
+        // -
+
+        function setNodeLabel(id, label) {
+            const nodes = Graph.graphData().nodes
+            nodes.forEach(node => {
+                if (node.id == id)
+                    node.label = label
+            })
+
+            Graph.graphData({nodes: nodes, links: Graph.graphData().links})
+        }
+
         function resetGraph() {
             Graph.graphData({nodes: [], links: []})
         }
@@ -250,6 +302,70 @@ G.set_node_attribute(node_id, attribute, value) # Sets the value of attribute fo
                 Graph.linkDirectionalArrowLength(6)
             else
                 Graph.linkDirectionalArrowLength(0)
+        }
+
+        // Animation
+
+        animation_stack = []
+
+        animation_old = []
+
+        // For the timeout ids. So when the user cancels the animation, it doesnt play.
+        animation_ids = []
+
+        animating = false
+
+        function begin_animation() {
+            for (var i = 0; i < animation_stack.length; i++) {
+                const animation = animation_stack[i]
+
+                animation_ids.append(setTimeout(function() {
+                    traverse_edge_internal(animation[0], animation[1], animation[2])
+                }, animation[3]))
+            }
+        }
+
+        function traverse_edge(from, to, set_colour, delay) {
+
+            if (animation_stack.length == 0) {
+                animation_stack.push([from, to, set_colour, delay])
+                begin_animation()
+            } else {
+                animation_stack.push([from, to, set_colour, delay])
+            }
+
+
+        }
+
+        function traverse_edge_internal(from, to, set_colour) {
+            const links = Graph.graphData().links
+
+            var edge = null
+
+            for (var i = 0; i < links.length; i++) {
+                if (links[i].source == from && links[i].target == to) {
+                    edge = links[i]
+                    break
+                }
+            }
+
+            if (edge == null) {
+                console.log("Edge not found")
+                return
+            }
+
+            modifyEdge(from, to, edge.label, set_colour)
+
+            Graph.emitParticle(edge)
+
+        }
+
+        function pause() {
+            Graph.pauseAnimation()
+        }
+
+        function resume() {
+            Graph.resumeAnimation()
         }
 
     </script>
