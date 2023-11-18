@@ -338,22 +338,42 @@ class Graph:
 
         iters = 0
 
-        while len(self.edges) < num_edges:
-            iters += 1
+        if self.directed:
 
-            if iters > num_edges * 2:
-                break
+            while len(self.edges) < num_edges:
+                iters += 1
 
-            node_u = random.choice(connected_list)
-            node_v = random.choice(connected_list)
+                if iters > num_edges * 2:
+                    break
 
-            if node_u == node_v:
-                continue
+                node_u = random.choice(connected_list)
+                node_v = random.choice(connected_list)
 
-            if self.adjacent(node_u, node_v):
-                continue
+                if node_u == node_v:
+                    continue
 
-            self.add_edge(node_u, node_v)
+                if self.adjacent(node_u, node_v):
+                    continue
+
+                self.add_edge(node_u, node_v)
+
+        else:
+            while (len(self.edges) / 2) < num_edges:
+                iters += 1
+
+                if iters > num_edges * 2:
+                    break
+
+                node_u = random.choice(connected_list)
+                node_v = random.choice(connected_list)
+
+                if node_u == node_v:
+                    continue
+
+                if self.adjacent(node_u, node_v):
+                    continue
+
+                self.add_edge(node_u, node_v)
 
     # Returns a adjacency matrix of the graph.
     def export(self):

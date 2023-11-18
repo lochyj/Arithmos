@@ -6,6 +6,9 @@ animating = false
 
 function animate() {
 
+    if (!animating)
+        animating = true
+
     if (animation_stack.length == 0) {
         return
     }
@@ -76,13 +79,14 @@ function cancel_animation() {
 
 function traverse_edge(from, to, set_colour, delay) {
 
-    if (animation_stack.length == 0) {
+    if (animating) {
         animation_stack.push([from, to, set_colour, delay]);
-        begin_animation();
+        return;
     } else {
         animation_stack.push([from, to, set_colour, delay]);
+        animate();
+        return;
     }
-
 
 }
 
