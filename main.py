@@ -50,12 +50,18 @@ def pause():
     global __paused
     __paused = not __paused
 
+    # window.pause() is for the graph visualization library
+    # and window.pause_animation() is for the animation script
+    # TODO combine them...
+
     if __paused:
         window.pause()
+        window.pause_animation()
         document["run"].html = """<img src="./icons/play.svg" alt="Run/Pause">Resume"""
 
     else:
         window.resume()
+        window.resume_animation()
         document["run"].html = """<img src="./icons/pause.svg" alt="Run/Pause">Pause"""
 
 def button_run(_):
@@ -83,6 +89,7 @@ def button_stop(_):
 
     window.resume()
     window.resetGraph()
+    window.cancel_animation()
     __running = False
 
 def button_restart(_):
