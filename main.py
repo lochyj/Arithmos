@@ -14,6 +14,7 @@ import sys
 from graph import Graph
 from set import Set
 from priority_queue import PriorityQueue
+from screen import Screen
 # from queue import Queue
 # from array import Array
 # from list import List

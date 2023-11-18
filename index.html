@@ -143,13 +143,14 @@ G.set_node_attribute(node_id, attribute, value) # Sets the value of attribute fo
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.nls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.26.1/min/vs/editor/editor.main.js"></script>
 
+    <!-- Import scripts from ./scripts/* -->
+    <!-- This has to be done in this order because we define variables in one file that need to be accessed in another -->
+    <!-- Yes I know this is not a good way of doing things... -->
     <script src="./scripts/editor.js"></script>
-
     <script src="./scripts/graph.js"></script>
-
     <script src="./scripts/utility.js"></script>
 
-    <script defer>
+    <script>
 
         // Load previously used code if its available
         loadCode();

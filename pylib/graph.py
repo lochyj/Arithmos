@@ -6,6 +6,11 @@ from globals import *
 
 from browser import window
 
+# A list of graphs that have been created.
+# It is used to set the main graph (the being displayed)
+# when the user calls Screen.display().
+graphs = []
+
 class Graph:
 
     def __init__(self, directed: bool = False):
@@ -27,6 +32,13 @@ class Graph:
         self.edge_index = {}
 
         self.id = str(uuid.uuid4())
+
+        if len(graphs) == 0:
+            self.is_main = True
+        else:
+            self.is_main = False
+
+        graphs.append(self)
 
     # ------------------|
     # Utility functions |
@@ -53,6 +65,16 @@ class Graph:
             case _: # Default pattern
                 return None
 
+    # This is kind of a bad design I will fix it in the future.
+    def __set_main_graph(self):
+
+        for graph in graphs:
+            graph.__set_not_main_graph()
+
+        self.is_main = True
+
+    def __set_not_main_graph(self):
+        self.is_main = False
 
     # ----------------
     # Nodes / Vertices
