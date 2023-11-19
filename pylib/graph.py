@@ -417,7 +417,7 @@ class Graph:
     # Animations |
     # -----------|
 
-    def traverse(self, node_u: any, node_v: any, set_colour: str = "", delay: float = 0.5):
+    def traverse(self, node_u: any, node_v: any, colour: str = "", delay: float = 0.5):
         check_hashable_type(node_u)
         check_hashable_type(node_v)
 
@@ -431,11 +431,26 @@ class Graph:
                 print("WARN: Edge not found.")
                 return
 
-            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), set_colour, delay)
+            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), colour, delay)
 
         else:
             if (node_u, node_v) not in self.edges and (node_v, node_u) not in self.edges:
                 print("WARN: Edge not found.")
                 return
 
-            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), set_colour, delay)
+            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), colour, delay)
+
+    def visit(self, node: any, colour: str = "", delay: float =0.5):
+        check_hashable_type(node)
+
+        node = hash(node)
+
+        if node not in self.nodes:
+            print("WARN: Node not found.")
+            return
+
+        delay = delay * 1000
+
+        print(self.id + str(node))
+
+        window.visit_node(self.id + str(node), colour, delay)

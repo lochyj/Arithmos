@@ -1,113 +1,115 @@
 const Graph = ForceGraph()(document.getElementById('output'))
 
-        Graph.autoPauseRedraw(false)
+Graph.autoPauseRedraw(false)
 
-        Graph.cooldownTime()
+Graph.cooldownTime()
 
-        Graph.nodeLabel("label")
+Graph.nodeLabel("label")
 
-        Graph.linkDirectionalParticleSpeed(0.04)
+Graph.linkDirectionalParticleSpeed(0.04)
 
-        out = document.getElementById("output")
+Graph.linkWidth(4)
 
-        outWidth = out.clientWidth
-        outHeight = out.clientHeight
+out = document.getElementById("output")
 
-        Graph.width(outWidth)
-        Graph.height(outHeight)
+outWidth = out.clientWidth
+outHeight = out.clientHeight
 
-        function getGraph() {
-            return Graph
+Graph.width(outWidth)
+Graph.height(outHeight)
+
+function getGraph() {
+    return Graph
+}
+
+function addNode(id, label, color) {
+    Graph.graphData().nodes.push({id: id, label: label, color: color})
+    Graph.graphData(Graph.graphData())
+}
+
+function addEdge(source, target, label, color) {
+    Graph.graphData().links.push({source: source, target: target, label: label, color: color})
+    Graph.graphData(Graph.graphData())
+}
+
+// Below doesn't work 100% correctly
+
+function modifyNode(id, label, color) {
+    const nodes = Graph.graphData().nodes
+
+    var node = null
+
+    for (var i = 0; i < nodes.length; i++) {
+        if (nodes[i].id == id) {
+            node = nodes[i];
+            break;
         }
+    }
 
-        function addNode(id, label, color) {
-            Graph.graphData().nodes.push({id: id, label: label, color: color})
-            Graph.graphData(Graph.graphData())
+    if (node == null) {
+        console.log("Node not found")
+        return
+    }
+
+    node.label = label
+    node.color = color
+
+    Graph.graphData({nodes: nodes, links: Graph.graphData().links})
+}
+
+function modifyEdge(source, target, label, color) {
+    const links = Graph.graphData().links
+
+    var edge = null
+
+    for (var i = 0; i < links.length; i++) {
+        if (links[i].source.id == from && links[i].target.id == to) {
+            edge = links[i]
+            break
         }
+    }
 
-        function addEdge(source, target, label, color) {
-            Graph.graphData().links.push({source: source, target: target, label: label, color: color})
-            Graph.graphData(Graph.graphData())
-        }
+    if (edge == null) {
+        console.log("Edge not found")
+        return
+    }
 
-        // Below doesn't work 100% correctly
+    edge.label = label
+    edge.color = color
 
-        function modifyNode(id, label, color) {
-            const nodes = Graph.graphData().nodes
+    Graph.graphData({nodes: Graph.graphData().nodes, links: links})
+}
 
-            var node = null
+function removeNode(id) {
+    Graph.graphData().nodes.splice(id, 1)
+    console.log(Graph.graphData())
+    Graph.graphData(Graph.graphData())
+}
 
-            for (var i = 0; i < nodes.length; i++) {
-                if (nodes[i].id == id) {
-                    node = nodes[i]
-                    break
-                }
-            }
+function removeEdge(source, target) {
+    Graph.graphData().links.splice(source, 1)
+    Graph.graphData(Graph.graphData())
+}
 
-            if (node == null) {
-                console.log("Node not found")
-                return
-            }
+// -
 
+function setNodeLabel(id, label) {
+    const nodes = Graph.graphData().nodes
+    nodes.forEach(node => {
+        if (node.id == id)
             node.label = label
-            node.color = color
+    })
 
-            Graph.graphData({nodes: nodes, links: Graph.graphData().links})
-        }
+    Graph.graphData({nodes: nodes, links: Graph.graphData().links})
+}
 
-        function modifyEdge(source, target, label, color) {
-            const links = Graph.graphData().links
+function resetGraph() {
+    Graph.graphData({nodes: [], links: []})
+}
 
-            var edge = null
-
-            for (var i = 0; i < links.length; i++) {
-                if (links[i].source == source && links[i].target == target) {
-                    edge = links[i]
-                    break
-                }
-            }
-
-            if (edge == null) {
-                console.log("Edge not found")
-                return
-            }
-
-            edge.label = label
-            edge.color = color
-
-            Graph.graphData({nodes: Graph.graphData().nodes, links: links})
-        }
-
-        function removeNode(id) {
-            Graph.graphData().nodes.splice(id, 1)
-            console.log(Graph.graphData())
-            Graph.graphData(Graph.graphData())
-        }
-
-        function removeEdge(source, target) {
-            Graph.graphData().links.splice(source, 1)
-            Graph.graphData(Graph.graphData())
-        }
-
-        // -
-
-        function setNodeLabel(id, label) {
-            const nodes = Graph.graphData().nodes
-            nodes.forEach(node => {
-                if (node.id == id)
-                    node.label = label
-            })
-
-            Graph.graphData({nodes: nodes, links: Graph.graphData().links})
-        }
-
-        function resetGraph() {
-            Graph.graphData({nodes: [], links: []})
-        }
-
-        function setDirectional(boolean) {
-            if (boolean == true)
-                Graph.linkDirectionalArrowLength(6)
-            else
-                Graph.linkDirectionalArrowLength(0)
-        }
+function setDirectional(boolean) {
+    if (boolean == true)
+        Graph.linkDirectionalArrowLength(6)
+    else
+        Graph.linkDirectionalArrowLength(0)
+}
