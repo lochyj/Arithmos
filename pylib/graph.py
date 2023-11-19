@@ -430,6 +430,12 @@ class Graph:
             if (node_u, node_v) not in self.edges:
                 print("WARN: Edge not found.")
                 return
+
             window.traverse_edge(self.id + str(node_u), self.id + str(node_v), set_colour, delay)
+
         else:
+            if (node_u, node_v) not in self.edges and (node_v, node_u) not in self.edges:
+                print("WARN: Edge not found.")
+                return
+
             window.traverse_edge(self.id + str(node_u), self.id + str(node_v), set_colour, delay)
