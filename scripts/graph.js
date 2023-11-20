@@ -34,50 +34,51 @@ function addEdge(source, target, label, color) {
 
 // Below doesn't work 100% correctly
 
-function modifyNode(id, label, color) {
-    const nodes = Graph.graphData().nodes
+function modifyNode(id, label, colour) {
+    const nodes = Graph.graphData().nodes;
 
-    var node = null
+    var node = null;
 
     for (var i = 0; i < nodes.length; i++) {
         if (nodes[i].id == id) {
-            node = nodes[i];
+            node = i;
             break;
         }
     }
 
     if (node == null) {
-        console.log("Node not found")
-        return
+        console.log("Node not found");
+        return;
     }
 
-    node.label = label
-    node.color = color
+    nodes[node].label = label;
+    nodes[node].color = colour;
 
-    Graph.graphData({nodes: nodes, links: Graph.graphData().links})
+    Graph.graphData({nodes: nodes, links: Graph.graphData().links});
+
 }
 
-function modifyEdge(source, target, label, color) {
+function modifyEdge(source, target, label, colour) {
     const links = Graph.graphData().links
 
     var edge = null
 
     for (var i = 0; i < links.length; i++) {
-        if (links[i].source.id == from && links[i].target.id == to) {
-            edge = links[i]
-            break
+        if (links[i].source.id == source && links[i].target.id == target) {
+            edge = i;
+            break;
         }
     }
 
     if (edge == null) {
-        console.log("Edge not found")
-        return
+        console.log("Edge not found");
+        return;
     }
 
-    edge.label = label
-    edge.color = color
+    links[edge].label = label;
+    links[edge].color = colour;
 
-    Graph.graphData({nodes: Graph.graphData().nodes, links: links})
+    Graph.graphData({nodes: Graph.graphData().nodes, links: links});
 }
 
 function removeNode(id) {

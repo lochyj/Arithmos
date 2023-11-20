@@ -50,7 +50,7 @@ class Graph:
         window.setDirectional(directed)
     
     def get_nodes(self):
-        return self.nodes
+        return self.nodes.copy()
     
     # Returns the edges in the graph in the specified format.
     # Defaults to connection list.
@@ -417,7 +417,7 @@ class Graph:
     # Animations |
     # -----------|
 
-    def traverse(self, node_u: any, node_v: any, colour: str = "", delay: float = 0.5):
+    def traverse(self, node_u: any, node_v: any, colour: str = "", delay: float = 1):
         check_hashable_type(node_u)
         check_hashable_type(node_v)
 
@@ -431,16 +431,21 @@ class Graph:
                 print("WARN: Edge not found.")
                 return
 
-            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), colour, delay)
+            self.set_edge_attribute(node_u, node_v, "visited", True)
+
+            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), colour, self.directed, delay)
 
         else:
             if (node_u, node_v) not in self.edges and (node_v, node_u) not in self.edges:
                 print("WARN: Edge not found.")
                 return
 
-            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), colour, delay)
+            self.set_edge_attribute(node_u, node_v, "visited", True)
+            self.set_edge_attribute(node_v, node_u, "visited", True)
 
-    def visit(self, node: any, colour: str = "", delay: float =0.5):
+            window.traverse_edge(self.id + str(node_u), self.id + str(node_v), colour, self.directed, delay)
+
+    def visit(self, node: any, colour: str = "green", delay: float = 1):
         check_hashable_type(node)
 
         node = hash(node)
@@ -450,7 +455,5 @@ class Graph:
             return
 
         delay = delay * 1000
-
-        print(self.id + str(node))
 
         window.visit_node(self.id + str(node), colour, delay)

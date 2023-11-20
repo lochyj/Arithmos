@@ -42,12 +42,11 @@ function run_animation(callback, id, data) {
     callback(data)
 
     if (animation_stack.length == 0) {
-        console.log(0)
         animating = false;
         return;
     }
 
-    console.log(1)
+    animating = false
 
     animate()
 
@@ -79,13 +78,13 @@ function cancel_animation() {
     animating = false
 }
 
-function traverse_edge(from, to, set_colour, delay) {
+function traverse_edge(from, to, set_colour, directed, delay) {
 
     if (delay == null) {
         delay = 0;
     }
 
-    animation_stack.push([uuidv4(), traverse_edge_internal, [from, to, set_colour], delay]);
+    animation_stack.push([uuidv4(), traverse_edge_internal, [from, to, set_colour, directed], delay]);
 
     animate();
 
@@ -95,6 +94,7 @@ function traverse_edge_internal(arguments) {
     from = arguments[0];
     to = arguments[1];
     set_colour = arguments[2];
+    directed = arguments[3];
 
     const links = Graph.graphData().links;
 
@@ -112,7 +112,12 @@ function traverse_edge_internal(arguments) {
         return;
     }
 
-    modifyEdge(from, to, edge.label, set_colour);
+    if (directed) {
+        modifyEdge(from, to, edge.label, set_colour);
+    } else {
+        modifyEdge(from, to, edge.label, set_colour);
+        modifyEdge(to, from, edge.label, set_colour);
+    }
 
     Graph.emitParticle(edge);
 
@@ -134,25 +139,7 @@ function visit_node_internal(arguments) {
     node = arguments[0];
     set_colour = arguments[1];
 
-    const nodes = Graph.graphData().nodes;
-
-    var node = null;
-
-    console.log(nodes)
-
-    for (var i = 0; i < nodes.length; i++) {
-        if (nodes[i].id == node) {
-            node = nodes[i];
-            break;
-        }
-    }
-
-    if (node == null) {
-        console.log("Node not found");
-        return;
-    }
-
-    modifyNode(node.id, node.label, set_colour);
+    modifyNode(node, node.label, set_colour);
 
 }
 
