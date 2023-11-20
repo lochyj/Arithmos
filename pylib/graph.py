@@ -5,6 +5,7 @@ import uuid
 from globals import *
 
 from browser import window
+import javascript # For null...
 
 # A list of graphs that have been created.
 # It is used to set the main graph (the being displayed)
@@ -85,6 +86,14 @@ class Graph:
         node = hash(node)
         self.nodes.append(node)
 
+        if (label == ""):
+            label = str(node)
+
+        self.nodes_attributes[node] = {
+            "label": label,
+            "color": colour
+        }
+
         window.addNode(self.id + str(node), label, colour)
 
 
@@ -125,7 +134,8 @@ class Graph:
 
         match attribute:
             case "label":
-                window.setNodeLabel(self.id + str(node), value)
+                # Label will always be a string.
+                window.modifyNode(self.id + str(node), str(value), javascript.UNDEFINED)
             case "weight":
                 ...
             case "color":
@@ -307,10 +317,24 @@ class Graph:
         node = hash(node)
 
         if self.directed:
-            return [edge[1] for edge in self.edges if edge[0] == node]
-        
+            edges = []
+
+            for edge in self.edges:
+                if edge[0] == node:
+                    edges.append(edge[1])
+
+            return edges
+
         else:
-            return [edge[1] for edge in self.edges if edge[0] == node or edge[1] == node]
+            edges = []
+
+            for edge in self.edges:
+                if edge[0] == node:
+                    edges.append(edge[1])
+                elif edge[1] == node:
+                    edges.append(edge[0])
+
+            return edges
 
 
     # ----------------
@@ -417,7 +441,7 @@ class Graph:
     # Animations |
     # -----------|
 
-    def traverse(self, node_u: any, node_v: any, colour: str = "", delay: float = 1):
+    def traverse(self, node_u: any, node_v: any, colour: str = "green", delay: float = 1):
         check_hashable_type(node_u)
         check_hashable_type(node_v)
 
@@ -436,7 +460,7 @@ class Graph:
             window.traverse_edge(self.id + str(node_u), self.id + str(node_v), colour, self.directed, delay)
 
         else:
-            if (node_u, node_v) not in self.edges and (node_v, node_u) not in self.edges:
+            if (node_u, node_v) not in self.edges or (node_v, node_u) not in self.edges:
                 print("WARN: Edge not found.")
                 return
 

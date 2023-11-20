@@ -96,13 +96,13 @@ function traverse_edge_internal(arguments) {
     set_colour = arguments[2];
     directed = arguments[3];
 
-    const links = Graph.graphData().links;
-
     var edge = null;
+
+    const links = Graph.graphData().links;
 
     for (var i = 0; i < links.length; i++) {
         if (links[i].source.id == from && links[i].target.id == to) {
-            edge = links[i];
+            edge = i;
             break;
         }
     }
@@ -113,13 +113,13 @@ function traverse_edge_internal(arguments) {
     }
 
     if (directed) {
-        modifyEdge(from, to, edge.label, set_colour);
+        modifyEdge(from, to, null, set_colour);
     } else {
-        modifyEdge(from, to, edge.label, set_colour);
-        modifyEdge(to, from, edge.label, set_colour);
+        modifyEdge(from, to, null, set_colour);
+        modifyEdge(to, from, null, set_colour);
     }
 
-    Graph.emitParticle(edge);
+    Graph.emitParticle(links[edge]);
 
 }
 
@@ -139,7 +139,7 @@ function visit_node_internal(arguments) {
     node = arguments[0];
     set_colour = arguments[1];
 
-    modifyNode(node, node.label, set_colour);
+    modifyNode(node, null, set_colour);
 
 }
 

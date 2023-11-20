@@ -18,6 +18,28 @@ outHeight = out.clientHeight
 Graph.width(outWidth)
 Graph.height(outHeight)
 
+// TODO: Work on this!
+// Graph.nodeCanvasObject((node, ctx, globalScale) => {
+//     const label = node.label || '';
+//     const fontSize = 12/globalScale;
+//     ctx.font = `${fontSize}px Sans-Serif`;
+//     const textWidth = ctx.measureText(label).width;
+//     const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+
+//     ctx.fillStyle = node.color;
+//     // make a circle
+//     ctx.beginPath();
+//     ctx.arc(node.x, node.y, 10/globalScale, 0, 2 * Math.PI, false);
+//     ctx.fill();
+
+//     ctx.textAlign = 'center';
+//     ctx.textBaseline = 'middle';
+//     ctx.fillStyle = 'white';
+//     ctx.fillText(label, node.x, node.y);
+
+//     node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
+// })
+
 function getGraph() {
     return Graph
 }
@@ -51,6 +73,14 @@ function modifyNode(id, label, colour) {
         return;
     }
 
+    if (label == null) {
+        label = nodes[node].label;
+    }
+
+    if (colour == null) {
+        colour = nodes[node].color;
+    }
+
     nodes[node].label = label;
     nodes[node].color = colour;
 
@@ -75,6 +105,14 @@ function modifyEdge(source, target, label, colour) {
         return;
     }
 
+    if (label == null) {
+        label = links[edge].label;
+    }
+
+    if (colour == null) {
+        colour = links[edge].color;
+    }
+
     links[edge].label = label;
     links[edge].color = colour;
 
@@ -93,16 +131,6 @@ function removeEdge(source, target) {
 }
 
 // -
-
-function setNodeLabel(id, label) {
-    const nodes = Graph.graphData().nodes
-    nodes.forEach(node => {
-        if (node.id == id)
-            node.label = label
-    })
-
-    Graph.graphData({nodes: nodes, links: Graph.graphData().links})
-}
 
 function resetGraph() {
     Graph.graphData({nodes: [], links: []})
