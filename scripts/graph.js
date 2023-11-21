@@ -19,26 +19,26 @@ Graph.width(outWidth)
 Graph.height(outHeight)
 
 // TODO: Work on this!
-// Graph.nodeCanvasObject((node, ctx, globalScale) => {
-//     const label = node.label || '';
-//     const fontSize = 12/globalScale;
-//     ctx.font = `${fontSize}px Sans-Serif`;
-//     const textWidth = ctx.measureText(label).width;
-//     const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+Graph.nodeCanvasObject((node, ctx, globalScale) => {
+    const label = node.label || '';
+    const fontSize = 12/globalScale;
+    ctx.font = `${fontSize}px Sans-Serif`;
+    const textWidth = ctx.measureText(label).width;
+    const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
 
-//     ctx.fillStyle = node.color;
-//     // make a circle
-//     ctx.beginPath();
-//     ctx.arc(node.x, node.y, 10/globalScale, 0, 2 * Math.PI, false);
-//     ctx.fill();
+    ctx.fillStyle = node.color;
+    // make a circle
+    ctx.beginPath();
+    ctx.arc(node.x, node.y, 10/globalScale, 0, 2 * Math.PI, false);
+    ctx.fill();
 
-//     ctx.textAlign = 'center';
-//     ctx.textBaseline = 'middle';
-//     ctx.fillStyle = 'white';
-//     ctx.fillText(label, node.x, node.y);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = 'white';
+    ctx.fillText(label, node.x, node.y);
 
-//     node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
-// })
+    node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
+})
 
 function getGraph() {
     return Graph

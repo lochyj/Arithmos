@@ -12,12 +12,12 @@ import sys
 # --------------|
 
 from graph import Graph
-from set import Set
+from lib_set import Set
 from priority_queue import PriorityQueue
 from screen import Screen
-# from queue import Queue
-# from array import Array
-# from list import List
+from lib_queue import Queue
+from lib_array import Array
+from lib_list import List
 #from stack import Stack
 
 # ------------|
