@@ -88,38 +88,49 @@
                 Documentation
             </h2>
             <div class="line"></div>
-            <h3>
-                Classes (ADTs)
-            </h3>
-            <li>Graph</li>
-            <br>
-            <li>Array</li>
-            <li>List</li>
-            <li>Priority Queue</li>
-            <li>Queue</li>
-            <li>Set</li>
 
             <h3>
-                Graph
+                Graph()
             </h3>
-<!-- This needs to be unindented to prevent highlight.js keeping the whitespaces (tabs) in the code -->
-<pre>
-<code class="language-python">
-G = Graph(directed) # Creates a graph instance
+            <div>
+                <div class="doc-line"><span class="code">get_nodes()</span> <span>Returns a list of nodes in the graph</span></div>
+                <div class="doc-line"><span class="code">get_edges()</span> <span>Returns a connection list of edges in the graph. E.G: [ [<span class="code">node_a</span>, <span class="code">node_b</span>], ...]</span></div>
 
-G.add_node(id) # Creates a node with the given id for the graph G which we defined above.
+                <div class="doc-line"><span class="code">add_node(node)</span> <span>Adds a node to the graph with an id of <span class="code">node</span>. The id can be any hashable type.<br>Meaning any float, int, string and, tuple types are accepted.</span></div>
+                <div class="doc-line"><span class="code">remove_node(node)</span> <span>Removes the node with the id of <span class="code">node</span> from the graph.</span></div>
+                <div class="doc-line"><span class="code">set_node_attribute(node, attribute, value)</span> <span>Sets the attribute of <span class="code">attribute</span> for the node with the id <span class="code">node</span> to the value specified in <span class="code">value</span>. Default attributes are attributes that are used internally for aspects of the graph such as node colour. The default attributes are; <br><span class="code">"label"</span> which sets the label of the node. It can be a float, string or int. <br><span class="code">"colour"</span> which sets the colour of the node. This accepts any default html colour. For example: <span class="code">"limegreen"</span>, <span class="code">"orange"</span> and, <span class="code">"pink"</span>. A list of html colours can be found <a href="https://www.w3schools.com/colors/colors_names.asp">here</a>.</span></div>
+                <div class="doc-line"><span class="code">get_node_attribute(node, attribute)</span> <span>Returns the value of the attribute specified by <span class="code">attribute</span> for the node with the id of <span class="code">node</span>.</span></div>
 
-G.add_edge(id_1, id_2) # Creates an edge between the nodes id_1 and id_2.
-# If the graph is directed, then the edge is from id_1 to id_2.
+                <div class="doc-line"><span class="code">add_edge(node_a, node_b)</span> <span>Creates an edge between the edges <span class="code">node_a</span> and <span class="code">node_b</span>. If the graph is directed then the edge will go from <span class="code">node_a</span> to <span class="code">node_b</span></span></div>
+                <div class="doc-line"><span class="code">remove_edge(node_a, node_b)</span> <span>Removes the edge between the edges <span class="code">node_a</span> and <span class="code">node_b</span>.</span></div>
+                <div class="doc-line"><span class="code">set_edge_attribute(node_a, node_b, attribute, value)</span> <span>Sets the attribute of <span class="code">attribute</span> for the edge between <span class="code">node_a</span> and <span class="code">node_b</span> to the value specified in <span class="code">value</span>. Default attributes are attributes that are used internally for aspects of the graph such as node colour. The default attributes are; <br><span class="code">"label"</span> which sets the label of the node. It can be a float, string or int. <br><span class="code">"colour"</span> which sets the colour of the node. This accepts any default html colour. For example: <span class="code">"limegreen"</span>, <span class="code">"orange"</span> and, <span class="code">"pink"</span>. A list of html colours can be found <a href="https://www.w3schools.com/colors/colors_names.asp">here</a>.</span></div>
+                <div class="doc-line"><span class="code">get_edge_attribute(node_a, node_b, attribute)</span> <span>Returns the value of the attribute specified by <span class="code">attribute</span> for the edge connecting <span class="code">node_a</span> and <span class="code">node_b</span>.</span></div>
 
-G.remove_node(id) # Removes the node with the given id.
+                <div class="doc-line"><span class="code">adjacent(node_a, node_b)</span> <span>Returns True or False based on whether <span class="code">node_a</span> and <span class="code">node_b</span> are connected with an edge. If the graph is directed then the edge will have to go from <span class="code">node_a</span> to <span class="code">node_b</span>.</span></div>
+                <div class="doc-line"><span class="code">neighbours(node)</span> <span>Returns a list of nodes that are directly connected to <span class="code">node</span>.</span></div>
 
-G.remove_edge(id_1, id_2) # Removes the edge between the nodes id_1 and id_2.
-# If the graph is directed then the only the edge that is node id_1 to id_2 is removed.
+                <div class="doc-line"><span class="code">random(nodes, edges)</span> <span>Generates a random graph with the number of specified <span class="code">nodes</span> and <span class="code">edges</span>. Requires the graph to be empty.</span></div>
+                <div class="doc-line"><span class="code">export()</span> <span>Returns an adjacency matrix that describes the graph.</span></div>
 
-G.set_node_attribute(node_id, attribute, value) # Sets the value of attribute for the node with the given id to the given value.
-</code>
-</pre>
+                <div class="doc-line"><span class="code">traverse(node_a, node_b, delay = 1, colour = green)</span> <span>Animates a traversal along the edge that connect <span class="code">node_a</span> and <span class="code">node_b</span>. The colour option specifies the colour the edge should be set to once it has been traversed. <span class="code">colour</span> is by default set to green and can only be set to another value using the <span class="code">=</span> operator. For example: <span class="code">G.traverse(0, 1, colour="red")</span>. The same goes for the <span class="code">delay</span> option, which is by default set to 1 second. The delay option takes either a float or an int that specify the number of seconds after the last animation performed to wait to begin the traversal.</span></div>
+                <div class="doc-line"><span class="code">visit(node, delay = 1, colour = green)</span> <span>Animates the visitation of a node. Takes similar options to <span class="code">Graph.traverse()</span>. See above for more information on the options.</span></div>
+            </div>
+
+            <h3>
+                Queue()
+            </h3>
+            <div>
+                <div class="doc-line"><span class="code">is_empty()</span> <span>Returns True or False depending on whether the queue is empty</span></div>
+                <div class="doc-line"><span class="code">append(element)</span> / <span class="code">enqueue(element)</span> <span>Enqueues the specified <span class="code">element</span>. Both <span class="code">append()</span> and <span class="code">enqueue()</span> do the same thing.</span></div>
+
+            </div>
+
+            <h3>
+                Priority Queue
+            </h3>
+            <div>
+
+            </div>
         </div>
 
         <div class="links" id="links">

@@ -52,19 +52,11 @@ class Graph:
     
     def get_nodes(self):
         return self.nodes.copy()
-    
+
     # Returns the edges in the graph in the specified format.
     # Defaults to connection list.
-    def get_edges(self, format: int = CONNECTION_LIST):
-        match format:
-            case 0:
-                return self.edges
-            
-            case 1:
-                return None
-
-            case _: # Default pattern
-                return None
+    def get_edges(self):
+        return self.edges.copy()
 
     # This is kind of a bad design I will fix it in the future.
     def __set_main_graph(self):
@@ -100,6 +92,10 @@ class Graph:
     def remove_node(self, node: any):
         check_hashable_type(node)
         node = hash(node)
+
+        if node not in self.nodes:
+            return
+
         self.nodes.remove(node)
 
         window.removeNode(self.id + str(node))

@@ -6,7 +6,8 @@ Graph.cooldownTime()
 
 Graph.nodeLabel("label")
 
-Graph.linkDirectionalParticleSpeed(0.04)
+Graph.linkDirectionalParticleSpeed(0.045)
+Graph.linkDirectionalParticleWidth(6.5)
 
 Graph.linkWidth(4)
 
@@ -18,26 +19,28 @@ outHeight = out.clientHeight
 Graph.width(outWidth)
 Graph.height(outHeight)
 
-// TODO: Work on this!
+// TODO: add a background to the text of the background colour of the node that is slightly larger than the text itself
 Graph.nodeCanvasObject((node, ctx, globalScale) => {
     const label = node.label || '';
-    const fontSize = 12/globalScale;
-    ctx.font = `${fontSize}px Sans-Serif`;
+    const fontSize = 10;
     const textWidth = ctx.measureText(label).width;
-    const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+    const backgroundDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillRect(node.x - backgroundDimensions[0] / 2, node.y - backgroundDimensions[1] / 2, ...backgroundDimensions);
 
     ctx.fillStyle = node.color;
-    // make a circle
     ctx.beginPath();
-    ctx.arc(node.x, node.y, 10/globalScale, 0, 2 * Math.PI, false);
+    ctx.arc(node.x, node.y, 7, 0, 2 * Math.PI, false);
     ctx.fill();
 
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+    ctx.font = `${fontSize}px Sans-Serif`;
     ctx.fillStyle = 'white';
     ctx.fillText(label, node.x, node.y);
 
-    node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
+    node.__bckgDimensions = backgroundDimensions; // to re-use in nodePointerAreaPaint
 })
 
 function getGraph() {

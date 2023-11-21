@@ -122,17 +122,13 @@ body > div {
     margin-top: 15px;
     margin-left: 10%;
     margin-right: 10%;
+    background-color: #fffffe;
 }
 
 .docs > h2 {
     padding: 0px;
     text-align: center;
     font-size: 2rem;
-}
-
-code {
-    background-color: #dfe1e5;
-    border-radius: 7px;
 }
 
 .inline {
@@ -197,6 +193,19 @@ h2 {
     height: 2px;
     background-color: #0065ff;
     margin-bottom: 5px;
+}
+
+.code {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.9rem;
+    background-color: #dfe1e5;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.doc-line {
+    padding: 7px;
+    line-height: calc(1em + 10px);
 }
 
 /*
