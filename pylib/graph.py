@@ -146,8 +146,10 @@ class Graph:
         if node not in self.nodes:
             print("WARN: Node not found.")
             return
-
-        return self.nodes_attributes[node][attribute]
+        try:
+            return self.nodes_attributes[node][attribute]
+        except:
+            return None
 
     # -----
     # Edges
@@ -264,7 +266,10 @@ class Graph:
                 print("WARN: Edge not found.")
                 return
 
-            return self.nodes_attributes[edge][attribute]
+            try:
+                return self.nodes_attributes[edge][attribute]
+            except:
+                return None
 
         else:
             edge_a = hash((node_u, node_v))
@@ -274,8 +279,11 @@ class Graph:
                 print("WARN: Edge not found.")
                 return
 
-            value_a = self.nodes_attributes[edge_a][attribute]
-            value_b = self.nodes_attributes[edge_b][attribute]
+            try:
+                value_a = self.nodes_attributes[edge_a][attribute]
+                value_b = self.nodes_attributes[edge_b][attribute]
+            except:
+                return None
 
             if value_a != value_b:
                 print("WARN: Edge values do not match.\nWe returned the first value we found.")
@@ -437,12 +445,15 @@ class Graph:
     # Animations |
     # -----------|
 
-    def traverse(self, node_u: any, node_v: any, colour: str = "green", delay: float = 1):
+    def traverse(self, node_u: any, node_v: any, colour: str = "green", delay: float = 0.5):
         check_hashable_type(node_u)
         check_hashable_type(node_v)
 
         node_u = hash(node_u)
         node_v = hash(node_v)
+
+        if colour == "":
+            colour = "grey"
 
         delay = delay * 1000
 
@@ -465,10 +476,13 @@ class Graph:
 
             window.traverse_edge(self.id + str(node_u), self.id + str(node_v), colour, self.directed, delay)
 
-    def visit(self, node: any, colour: str = "green", delay: float = 1):
+    def visit(self, node: any, colour: str = "green", delay: float = 0.5):
         check_hashable_type(node)
 
         node = hash(node)
+
+        if colour == "":
+            colour = "#3183ba"
 
         if node not in self.nodes:
             print("WARN: Node not found.")
@@ -476,4 +490,17 @@ class Graph:
 
         delay = delay * 1000
 
+        self.set_node_attribute(node, "visited", True)
+
         window.visit_node(self.id + str(node), colour, delay)
+
+    def reinstate(self):
+        for node in self.get_nodes():
+            if self.get_node_attribute(node, "visited"):
+                self.visit(node, colour="", delay=0)
+                self.set_node_attribute(node, "visited", False)
+
+        for edge in self.get_edges():
+            if self.get_edge_attribute(edge[0], edge[1], "visited"):
+                self.traverse(edge[0], edge[1], colour="", delay=0)
+                self.set_edge_attribute(edge[0], edge[1], "visited", False)

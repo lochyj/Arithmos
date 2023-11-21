@@ -122,15 +122,28 @@
             <div>
                 <div class="doc-line"><span class="code">is_empty()</span> <span>Returns True or False depending on whether the queue is empty</span></div>
                 <div class="doc-line"><span class="code">append(element)</span> / <span class="code">enqueue(element)</span> <span>Enqueues the specified <span class="code">element</span>. Both <span class="code">append()</span> and <span class="code">enqueue()</span> do the same thing.</span></div>
+                <div class="doc-line"><span class="code">serve()</span> / <span class="code">dequeue()</span> <span>Dequeues and returns the next element in the queue. NOTE: This is slightly different to the ADT specifications, namely it returns the value, this is for your convenience.</span></div>
+                <div class="doc-line"><span class="code">peek()</span> <span>Returns the next value to be dequeued in the queue. This does not remove the element from the queue.</span></div>
 
             </div>
 
             <h3>
-                Priority Queue
+                PriorityQueue()
             </h3>
             <div>
-
+                <div class="doc-line"><span class="code">is_empty()</span> <span>Returns True or False depending on whether the priority queue is empty</span></div>
+                <div class="doc-line"><span class="code">insert_with_priority(element, priority)</span> <span>Inserts <span class="code">element</span> into the queue with the priority level of <span class="code">priority</span></span></div>
+                <div class="doc-line"><span class="code">remove_min()</span> <span>Removes and returns the value with the minimum priority from the priority queue.</span></div>
+                <div class="doc-line"><span class="code">get_min()</span> <span>Returns the value with the minimum priority from the priority queue. This does not remove the value from the priority queue.</span></div>
             </div>
+        </div>
+
+        <div class="examples" id="examples">
+            <h2>
+                Examples
+            </h2>
+            <div class="line"></div>
+            <button onclick="load_example('dfs')">DFS</button>
         </div>
 
         <div class="links" id="links">
@@ -177,5 +190,57 @@
     </script>
 
     <script src="./scripts/animation.js"></script>
+
+    <!-- !!EXAMPLES!! -->
+    <script>
+        function load_example(type) {
+            switch (type) {
+                case "dfs":
+                    editor.setValue(`
+totalNodes = 10
+totalEdges = 20
+startNode = 0
+endNode = 8
+print(f'Depth First Search from node {startNode} to {endNode}.')
+
+import random
+G = Graph()
+G.random(totalNodes, totalEdges)
+start = G.get_nodes()[startNode]
+G.visit(start)
+G.set_node_attribute(start, "label", "Start")
+
+lastNode = start
+
+visitedNodes = [start]
+path = [start]
+
+while len(visitedNodes) != totalNodes:
+    neighbours = [i for i in G.neighbours(lastNode) if i not in visitedNodes]
+    if neighbours != []:
+        # Select random node that is not in visited nodes, then add it to visited nodes
+        randNode = random.choice(neighbours)
+        visitedNodes.append(randNode)
+        path.append(randNode)
+
+        G.traverse(lastNode, randNode)
+        G.visit(randNode)
+        lastNode = randNode
+
+    else:
+        # Remove last element in path list
+        removedNode = path.pop(-1)
+
+        lastNode = path[-1]
+        G.traverse(removedNode, lastNode)
+
+    if lastNode == endNode:
+        break
+
+print(f'Path: {path}')
+`);
+            }
+        }
+    </script>
 </body>
 </html>

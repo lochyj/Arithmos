@@ -147,6 +147,32 @@ body > div {
 }
 
 /*
+    Links
+*/
+
+.links {
+    padding: 10px;
+    border-radius: 7px;
+    color: #030507;
+    justify-self: center;
+    margin-top: 15px;
+    margin-left: 10%;
+    margin-right: 10%;
+    background-color: #fffffe;
+    height: max-content;
+    margin-bottom: 30px;
+}
+
+.links > a {
+    color: #030507;
+    text-decoration: #0065ff underline 2px;
+}
+
+.links > a:hover {
+    color: #0065ff;
+}
+
+/*
     Navigation
 */
 
